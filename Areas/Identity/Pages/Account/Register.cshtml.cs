@@ -129,7 +129,7 @@ namespace ccse_cw1.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     PhoneNumber = Input.PhoneNumber,
                     Address = Input.Address,
-                    CreatedAt = DateTime.Now
+                    CratedAt = DateTime.Now
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
