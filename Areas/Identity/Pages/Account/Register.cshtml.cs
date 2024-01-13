@@ -78,7 +78,7 @@ namespace ccse_cw1.Areas.Identity.Pages.Account
             [Required]
             public string PhoneNumber { get; set; }
             [Required]
-            public string Address { get; set; }
+            public string PassportNumber { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -128,8 +128,8 @@ namespace ccse_cw1.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     PhoneNumber = Input.PhoneNumber,
-                    Address = Input.Address,
-                    CratedAt = DateTime.Now
+                    PassportNumber = Input.PassportNumber,
+                    CreatedAt = DateTime.Now
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
