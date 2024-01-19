@@ -1,21 +1,109 @@
 ﻿@page
-@using ccse_cw1.Models;
 @model ccse_cw1.Pages.BookingModel
 @{
-	ViewData["Title"] = "Booking";
 }
 
-<h1>Customers</h1>
 
-<table>
+<div style="display: flex">
+<table style="width:50%">
     <tr>
         <th>Hotel ID</th>
         <th>Hotel Name</th>
-        <th>Room type</th>
+        <th>Room Type</th>
         <th>Price</th>
-        <th>Number of Rooms</th>
+        <th># of Rooms Left</th>
     </tr>
-
+    @foreach (var item in Model.BookingSystems)
     {
+        <tr>
+            <td>@item.HotelID</td>
+            <td>@item.HotelName</td>
+            <td>@item.RoomType</td>
+            <td>£@item.Price</td>
+            <td style="text-align: center">@item.NumRooms</td>
+        </tr>
+
+        <tr>
+
+        </tr>
     }
 </table>
+
+<table style="width:50%">
+    <tr style="text-align: center">
+        <th>Available From</th>
+        <th>Available To</th>
+    </tr>
+
+@foreach (var day in Model.HotelDates)
+{
+    <tr style="text-align: center">
+        <td>@day.AvailableFrom</td>
+        <td>@day.AvailableTo</td>
+    </tr>
+}
+</table>
+</div>
+<br />
+
+<select id="hotelDropdown" onchange="updateTotalCost()">
+    <option value="">-- Select Hotel --</option>
+    @foreach (var item in Model.BookingSystems)
+    {
+        <option value="@item.HotelID" data-price="@item.Price">
+            @item.HotelID - @item.HotelName - @item.RoomType
+        </option>
+    }
+</select>
+
+
+<label for="HotelBooking.StartDate">Check In Date:</label>
+<input type="date" id="Checkin" name="checkin">
+
+<label for="HotelBooking.EndDate">Check Out Date:</label>
+<input type="date" id="birthday" name="checkout">
+
+<span id="totalCost" disabled="true">Total Cost: £0</span>
+
+<input type="submit" name="Book">
+
+
+
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<script>
+
+        function updateTotalCost() {
+            console.log("updateTotalCost called")
+            var hotelDropdown = document.getElementById("hotelDropdown");
+            var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];
+            var price = parseFloat(selectedHotel.getAttribute("data-price"));
+
+            var checkinDate = new Date(document.getElementById("Checkin").value);
+            var checkoutDate = new Date(document.getElementById("checkout").value);
+
+            if (checkinDate >= checkoutDate) {
+                alert("Invalid date range. Check-out date must be later than Check-in date.");
+                return;
+            }
+
+            var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)); // Calculate number of nights
+
+            var totalCost = price * numNights;
+
+            // Update the total cost span
+            var totalCostSpan = document.getElementById("totalCost");
+            totalCostSpan.textContent = "Total Cost: £" + totalCost.toFixed(2);
+        }
+</script>
+
+</script>
+
+
+</script>
