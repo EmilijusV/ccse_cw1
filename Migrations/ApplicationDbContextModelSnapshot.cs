@@ -51,19 +51,19 @@ namespace ccse_cw1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3a361515-10e5-4d0a-a565-95701f2792e9",
+                            Id = "336522f9-6520-4520-a220-619828e2586c",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "add10c7d-fcda-4d19-b113-8e07c5c53805",
+                            Id = "eedf5df0-6c9b-41f6-8eda-e6559939c2ff",
                             Name = "client",
                             NormalizedName = "client"
                         },
                         new
                         {
-                            Id = "3d0e7815-dcc2-48b4-8b43-3a1fd6069930",
+                            Id = "69a3acc3-143c-4178-87fa-c31fcff904cd",
                             Name = "seller",
                             NormalizedName = "seller"
                         });
@@ -259,201 +259,6 @@ namespace ccse_cw1.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ccse_cw1.Models.Hotel", b =>
-                {
-                    b.Property<int>("HotelID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelID"));
-
-                    b.Property<string>("HotelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumRooms")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<string>("RoomType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HotelID");
-
-                    b.ToTable("Hotels");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.HotelBooking", b =>
-                {
-                    b.Property<int>("HotelBookingID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelBookingID"));
-
-                    b.Property<string>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
-
-                    b.HasKey("HotelBookingID");
-
-                    b.HasIndex("HotelID");
-
-                    b.ToTable("HotelBookings");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.HotelDate", b =>
-                {
-                    b.Property<int>("HotelDateID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelDateID"));
-
-                    b.Property<DateTime>("AvailableFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("AvailableTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
-
-                    b.HasKey("HotelDateID");
-
-                    b.HasIndex("HotelID");
-
-                    b.ToTable("HotelDates");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.Package", b =>
-                {
-                    b.Property<int>("PackageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageID"));
-
-                    b.Property<string>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("TotalCost")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TourID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PackageID");
-
-                    b.ToTable("Packages");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.Tour", b =>
-                {
-                    b.Property<int>("TourID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TourID"));
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumSpaces")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<string>("TourName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TourID");
-
-                    b.ToTable("Tours");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.TourBooking", b =>
-                {
-                    b.Property<int>("TourBookingID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TourBookingID"));
-
-                    b.Property<string>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("TotalCost")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TourID")
-                        .HasColumnType("int");
-
-                    b.HasKey("TourBookingID");
-
-                    b.HasIndex("TourID");
-
-                    b.ToTable("TourBookings");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.TourDate", b =>
-                {
-                    b.Property<int>("TourDateID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TourDateID"));
-
-                    b.Property<DateTime>("AvailableFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("AvailableTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TourID")
-                        .HasColumnType("int");
-
-                    b.HasKey("TourDateID");
-
-                    b.HasIndex("TourID");
-
-                    b.ToTable("TourDates");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -503,62 +308,6 @@ namespace ccse_cw1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.HotelBooking", b =>
-                {
-                    b.HasOne("ccse_cw1.Models.Hotel", "Hotel")
-                        .WithMany("HotelBookings")
-                        .HasForeignKey("HotelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.HotelDate", b =>
-                {
-                    b.HasOne("ccse_cw1.Models.Hotel", "Hotel")
-                        .WithMany("HotelDates")
-                        .HasForeignKey("HotelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.TourBooking", b =>
-                {
-                    b.HasOne("ccse_cw1.Models.Tour", "Tour")
-                        .WithMany("TourBookings")
-                        .HasForeignKey("TourID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.TourDate", b =>
-                {
-                    b.HasOne("ccse_cw1.Models.Tour", "Tour")
-                        .WithMany()
-                        .HasForeignKey("TourID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.Hotel", b =>
-                {
-                    b.Navigation("HotelBookings");
-
-                    b.Navigation("HotelDates");
-                });
-
-            modelBuilder.Entity("ccse_cw1.Models.Tour", b =>
-                {
-                    b.Navigation("TourBookings");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,10 +22,6 @@
             <td>£@item.Price</td>
             <td style="text-align: center">@item.NumRooms</td>
         </tr>
-
-        <tr>
-
-        </tr>
     }
 </table>
 
@@ -46,29 +42,33 @@
 </div>
 <br />
 
-<select id="hotelDropdown" onchange="updateTotalCost()">
-    <option value="">-- Select Hotel --</option>
-    @foreach (var item in Model.BookingSystems)
-    {
-        <option value="@item.HotelID" data-price="@item.Price">
-            @item.HotelID - @item.HotelName - @item.RoomType
-        </option>
-    }
-</select>
+<form method="post">
 
+    <label for="HotelBooking.StartDate">Check In Date:</label>
+    <input type="date" id="Checkin" asp-for="@Model.HotelBooking.StartDate">
 
-<label for="HotelBooking.StartDate">Check In Date:</label>
-<input type="date" id="Checkin" name="checkin">
+    <label for="HotelBooking.EndDate">Check Out Date:</label>
+    <input type="date" id="checkout" asp-for="@Model.HotelBooking.EndDate">
 
-<label for="HotelBooking.EndDate">Check Out Date:</label>
-<input type="date" id="birthday" name="checkout">
+    <select id="hotelDropdown" asp-for="@Model.HotelBooking.HotelID" onchange="updateTotalCost()">
+        <option value="">-- Select Hotel --</option>
+        @foreach (var item in Model.BookingSystems)
+        {
+            <option value="@item.HotelID" data-hotel="@item.HotelID" data-price="@item.Price" data-rooms="@item.NumRooms">
+                @item.HotelID - @item.HotelName - @item.RoomType
+            </option>
+        }
+    </select>
 
-<span id="totalCost" disabled="true">Total Cost: £0</span>
+    <button type="button" name="command" value="CheckHotelAvailability" onclick="updateTables()">Check Availability</button>
 
-<input type="submit" name="Book">
+    <span id="totalCost">Total Cost: £</span>
 
+    <input type="text" id="myInput" asp-for="@Model.HotelBooking.TotalPrice" style="width: 85px;" value="0" />
 
+    <button type="submit" name="command" value="Book">Book</button>
 
+</form>
 
 <style>
     table, th, td {
@@ -79,31 +79,70 @@
 
 <script>
 
-        function updateTotalCost() {
-            console.log("updateTotalCost called")
-            var hotelDropdown = document.getElementById("hotelDropdown");
-            var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];
-            var price = parseFloat(selectedHotel.getAttribute("data-price"));
+    function updateInputValue(){
+        var inputElement = document.getElementById('myInput');
 
-            var checkinDate = new Date(document.getElementById("Checkin").value);
-            var checkoutDate = new Date(document.getElementById("checkout").value);
+        inputElement.value = "New Value";
+    }
 
-            if (checkinDate >= checkoutDate) {
-                alert("Invalid date range. Check-out date must be later than Check-in date.");
-                return;
-            }
+    function getHotelId() {
+     
+    }
 
-            var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)); // Calculate number of nights
+    function updateTables() {
+        console.log("CALlED")
 
-            var totalCost = price * numNights;
+        var hotelDropdown = document.getElementById("hotelDropdown");
+        console.log(hotelDropdown);
+        var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];
+        console.log(selectedHotel);
+        var roomsRemaining = selectedHotel.getAttribute("data-rooms");
+        console.log(roomsRemaining);
+        var selectedHotels = selectedHotel.getAttribute("data-hotel");
+        console.log(selectedHotels);
 
-            // Update the total cost span
-            var totalCostSpan = document.getElementById("totalCost");
-            totalCostSpan.textContent = "Total Cost: £" + totalCost.toFixed(2);
+        var checkinDate = new Date(document.getElementById("Checkin").value);
+        var checkoutDate = new Date(document.getElementById("checkout").value);
+
+        if (checkinDate >= checkoutDate) {
+            alert("Invalid date range. Check-out date must be later than Check-in date.");
+            return;
         }
+
+        var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+
+        if (numNights > roomsRemaining) {
+            alert("Not enough rooms available");
+            return;
+        } else {
+            alert("Feel Free to Book the Hotel");
+            return;
+        }
+
+    }
+    
+    function updateTotalCost() {
+        console.log("updateTotalCost function called");
+
+        var hotelDropdown = document.getElementById("hotelDropdown");
+        var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];   
+        var price = parseFloat(selectedHotel.getAttribute("data-price"));
+
+        var checkinDate = new Date(document.getElementById("Checkin").value);
+        var checkoutDate = new Date(document.getElementById("checkout").value);
+
+        if (checkinDate >= checkoutDate) {
+            alert("Invalid date range. Check-out date must be later than Check-in date.");
+            return;
+        }
+
+        var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)); // Calculate number of nights
+
+        var totalCost = price * numNights;
+
+        // Update the total cost span
+        var myInput = document.getElementById("myInput");
+        myInput.value = totalCost.toFixed(2);
+    }
 </script>
 
-</script>
-
-
-</script>
