@@ -1,0 +1,78 @@
+﻿@page
+@model ccse_cw1.Pages.aTemp.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].HotelStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].HotelEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TourStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TourEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TotalCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].Hotel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].Tour)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Package) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HotelStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HotelEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TourStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TourEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hotel.HotelID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tour.TourID)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PackageID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PackageID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PackageID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ccse_cw1.Pages
 {
-    [Authorize]
+    [Authorize (Roles = "seller")]
     public class UserModel : PageModel
     {
 		private readonly UserManager<ApplicationUser> userManager;

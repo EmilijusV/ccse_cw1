@@ -1,0 +1,161 @@
+﻿@page
+@model ccse_cw1.Pages.CustomerDashboard.EditHotelModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>HotelBooking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="HotelBooking.HotelBookingID" />
+            <div class="form-group">
+                <label asp-for="HotelBooking.HotelID" class="control-label"></label>
+                <select asp-for="HotelBooking.HotelID" id="hotelId" class="form-control" asp-items="ViewBag.HotelID"></select>
+                <span asp-validation-for="HotelBooking.HotelID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HotelBooking.CustomerID" class="control-label"></label>
+                <input asp-for="HotelBooking.CustomerID" class="form-control" readonly />
+                <span asp-validation-for="HotelBooking.CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HotelBooking.StartDate" class="control-label"></label>
+                <input asp-for="HotelBooking.StartDate" id="HotelCheckIn" class="form-control" onchange="checkCheckInDate()" />
+                <span asp-validation-for="HotelBooking.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HotelBooking.EndDate" class="control-label"></label>
+                <input asp-for="HotelBooking.EndDate" id="HotelCheckOut" class="form-control" onchange="updateTotalPrice()"/>
+                <span asp-validation-for="HotelBooking.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HotelBooking.TotalPrice" class="control-label"></label>
+                <input asp-for="HotelBooking.TotalPrice" id="HotelTotalPrice" class="form-control" readonly />
+                <span asp-validation-for="HotelBooking.TotalPrice" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<script>
+
+    function updateTotalPrice() {
+
+        var hotelDropdown = document.getElementById("hotelId");
+        var selectedHotelID = hotelDropdown.value;
+        console.log(selectedHotelID);
+
+        switch (selectedHotelID) {
+            case "1":
+                hotelPrice = 375;
+                break;
+            case "2":
+                hotelPrice = 775;
+                break;
+            case "3":
+                hotelPrice = 950;
+                break;
+            case "4":
+                hotelPrice = 300;
+                break;
+            case "5":
+                hotelPrice = 500;
+                break;
+            case "6":
+                hotelPrice = 900;
+                break;
+            case "7":
+                hotelPrice = 80;
+                break;
+            case "8":
+                hotelPrice = 120;
+                break;
+            case "9":
+                hotelPrice = 150;
+                break;
+            case "10":
+                hotelPrice = 180;
+                break;
+            case "11":
+                hotelPrice = 400;
+                break;
+            case "12":
+                hotelPrice = 520;
+                break;
+            case "13":
+                hotelPrice = 180;
+                break;
+            case "14":
+                hotelPrice = 400;
+                break;
+            case "15":
+                hotelPrice = 520;
+                break;
+            case "16":
+                hotelPrice = 90;
+                break;
+            case "17":
+                hotelPrice = 100;
+                break;
+            case "18":
+                hotelPrice = 155;
+                break;
+        }
+        var totalPrice = hotelPrice;
+        console.log(totalPrice);
+
+        var checkinDate = new Date(document.getElementById("HotelCheckIn").value);
+        var checkoutDate = new Date(document.getElementById("HotelCheckOut").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate >= checkoutDate) {
+            alert("Invalid date range. Check-out date must be later than Check-in date.");
+            return;
+        }
+
+        var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+
+        var grandTotalPrice = totalPrice * numNights;
+
+        // Update the total cost span
+        var HotelTotalPrice = document.getElementById("HotelTotalPrice");
+        HotelTotalPrice.value = grandTotalPrice.toFixed(2);
+    }
+
+    function checkCheckInDate() {
+        var hotelDropdown = document.getElementById("hotelId");
+        var selectedHotelID = hotelDropdown.options[hotelDropdown.selectedIndex];
+
+        var checkinDate = new Date(document.getElementById("HotelCheckIn").value);
+        var checkoutDate = new Date(document.getElementById("HotelCheckOut").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate < currentDate) {
+            alert("The start date you have selected is in the past! Please change it.");
+            return;
+        }
+    }
+
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
