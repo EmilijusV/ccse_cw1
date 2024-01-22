@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ccse_cw1.Data;
 
@@ -11,9 +12,11 @@ using ccse_cw1.Data;
 namespace ccse_cw1.Migrations.BookingSystemMigrations
 {
     [DbContext(typeof(BookingSystem))]
-    partial class BookingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240122012912_PackageTableUpdatev2")]
+    partial class PackageTableUpdatev2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

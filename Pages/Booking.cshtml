@@ -90,19 +90,21 @@
     }
 
     function updateTables() {
-        console.log("CALlED")
 
         var hotelDropdown = document.getElementById("hotelDropdown");
-        console.log(hotelDropdown);
         var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];
-        console.log(selectedHotel);
         var roomsRemaining = selectedHotel.getAttribute("data-rooms");
-        console.log(roomsRemaining);
         var selectedHotels = selectedHotel.getAttribute("data-hotel");
-        console.log(selectedHotels);
 
         var checkinDate = new Date(document.getElementById("Checkin").value);
         var checkoutDate = new Date(document.getElementById("checkout").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate < currentDate) {
+            alert("The start date you have selected is in the past! Please change it.");
+            return;
+        }
 
         if (checkinDate >= checkoutDate) {
             alert("Invalid date range. Check-out date must be later than Check-in date.");
@@ -122,7 +124,6 @@
     }
     
     function updateTotalCost() {
-        console.log("updateTotalCost function called");
 
         var hotelDropdown = document.getElementById("hotelDropdown");
         var selectedHotel = hotelDropdown.options[hotelDropdown.selectedIndex];   

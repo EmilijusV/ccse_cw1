@@ -1,0 +1,139 @@
+﻿@page
+@model ccse_cw1.Pages.TBookingModel
+@{
+}
+
+<div style="display: flex">
+    <table style="width:50%">
+        <tr>
+            <th>Tour ID</th>
+            <th>Tour Name</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th># of Spaces Left</th>
+        </tr>
+        @foreach (var item in Model.BookingSystems)
+        {
+            <tr>
+                <td>@item.TourID</td>
+                <td>@item.TourName</td>
+                <td>@item.Duration</td>
+                <td>£@item.Price</td>
+                <td style="text-align: center">@item.NumSpaces</td>
+            </tr>
+        }
+    </table>
+
+    <table style="width:50%">
+        <tr style="text-align: center">
+            <th>Available From</th>
+            <th>Available To</th>
+        </tr>
+
+        @foreach (var day in Model.TourDates)
+        {
+            <tr style="text-align: center">
+                <td>@day.AvailableFrom</td>
+                <td>@day.AvailableTo</td>
+            </tr>
+        }
+    </table>
+</div>
+<br />
+
+<form method="post">
+
+    <label for="TourBooking.StartDate">Select Tour Start Date:</label>
+    <input type="date" id="Checkin" asp-for="@Model.TourBooking.StartDate">
+
+    <span id="EndDate">Tour end Date: </span>
+    <input type="text" id="myInput" asp-for="@Model.TourBooking.EndDate" style="width: 95px;" value="" readonly />
+
+    <select id="tourDropdown" asp-for="@Model.TourBooking.TourID" onchange="endDateCalculation()">
+        <option value="">-- Select Tour --</option>
+        @foreach (var item in Model.BookingSystems)
+        {
+            <option value="@item.TourID" data-hotel="@item.TourID" data-duration="@item.Duration" data-price="@item.Price" data-rooms="@item.NumSpaces">
+                @item.TourID - @item.TourName - @item.Duration
+            </option>
+        }
+    </select>
+
+    <button type="button" name="command" value="CheckTourAvailability" onclick="checkAvailability(); changeTotalCost();">Check Availability</button>
+
+    <span id="totalCost">Total Cost: £</span>
+
+    <input type="text" id="myInput1" asp-for="@Model.TourBooking.TotalCost" style="width: 85px;" value="0" />
+
+    <button type="submit" name="command" value="Book">Book</button>
+
+</form>
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<script>
+
+    function endDateCalculation() {
+        console.log("endDateCalculation function called");
+        var tourDropdown = document.getElementById("tourDropdown");
+        var selectedTour = tourDropdown.options[tourDropdown.selectedIndex];
+        var selectedDuration = selectedTour.getAttribute("data-duration");
+
+        var selectedDate = new Date(document.getElementById("Checkin").value);
+        console.log(selectedDate);
+        console.log(selectedDuration);
+
+        var duration = selectedDuration * 24 * 60 * 60 * 1000;
+
+        var endDate = new Date(selectedDate.getTime() + duration);
+        console.log(endDate);
+
+        var formattedEndDate = endDate.toLocaleDateString('en-GB');
+
+        var myInput = document.getElementById("myInput");
+        myInput.value = formattedEndDate;
+    }
+
+    function checkAvailability() {
+        var tourDropdown = document.getElementById("tourDropdown");
+        var selectedTour = tourDropdown.options[tourDropdown.selectedIndex];
+        var selectedDuration = selectedTour.getAttribute("data-duration");
+        var spacesRemaining = selectedTour.getAttribute("data-rooms");
+        console.log(spacesRemaining);
+
+        var selectedDate = new Date(document.getElementById("Checkin").value);
+        console.log(selectedDate);
+        console.log(selectedDuration);
+
+        var currentDate = new Date();
+        console.log(currentDate)
+
+        if (selectedDate < currentDate) {
+            alert("The start date you have selected is in the past! Please change it.");
+            return;
+        }
+
+        if (spacesRemaining < 1) {
+            alert("There are no spaces Available for this hotel");
+            return;
+        } else {
+            alert("Feel Free to book your Tour");
+            return
+        }
+    }
+
+    function changeTotalCost(){
+        console.log("ASDLASLDASLDLASD");
+        var tourDropdown = document.getElementById("tourDropdown");
+        var selectedTour = tourDropdown.options[tourDropdown.selectedIndex];
+        var price = parseFloat(selectedTour.getAttribute("data-price"));
+
+        var myInput1 = document.getElementById("myInput1");
+        myInput1.value = price.toFixed(2);
+    }
+</script>

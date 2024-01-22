@@ -19,6 +19,7 @@ namespace ccse_cw1.Models
         public int NumRooms { get; set; }
         public ICollection<HotelBooking> HotelBookings { get; } = new List<HotelBooking>();
         public ICollection<HotelDate> HotelDates { get; } = new List<HotelDate>();
+        public ICollection<Package> Packages { get; } = new List<Package>();
 
     }
 }

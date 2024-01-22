@@ -7,9 +7,14 @@
         public int TourID { get; set; }
         public int HotelID { get; set; }
         public string CustomerID { get; set; } = "";
-
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime HotelStartDate { get; set; }
+        public DateTime HotelEndDate { get; set; }
+        public DateTime TourStartDate { get; set; }
+        public DateTime TourEndDate { get; set; }
         public double TotalCost { get; set; }
+
+
+        public Hotel Hotel { get; set; } = null!;
+        public Tour Tour { get; set; } = null!;
     }
 }

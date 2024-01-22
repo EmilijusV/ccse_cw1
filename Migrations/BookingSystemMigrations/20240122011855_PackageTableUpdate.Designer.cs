@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ccse_cw1.Data;
 
@@ -11,9 +12,11 @@ using ccse_cw1.Data;
 namespace ccse_cw1.Migrations.BookingSystemMigrations
 {
     [DbContext(typeof(BookingSystem))]
-    partial class BookingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240122011855_PackageTableUpdate")]
+    partial class PackageTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,10 +142,6 @@ namespace ccse_cw1.Migrations.BookingSystemMigrations
 
                     b.HasKey("PackageID");
 
-                    b.HasIndex("HotelID");
-
-                    b.HasIndex("TourID");
-
                     b.ToTable("Packages");
                 });
 
@@ -249,25 +248,6 @@ namespace ccse_cw1.Migrations.BookingSystemMigrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("ccse_cw1.Models.Package", b =>
-                {
-                    b.HasOne("ccse_cw1.Models.Hotel", "Hotel")
-                        .WithMany("Packages")
-                        .HasForeignKey("HotelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ccse_cw1.Models.Tour", "Tour")
-                        .WithMany("Packages")
-                        .HasForeignKey("TourID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("ccse_cw1.Models.TourBooking", b =>
                 {
                     b.HasOne("ccse_cw1.Models.Tour", "Tour")
@@ -295,14 +275,10 @@ namespace ccse_cw1.Migrations.BookingSystemMigrations
                     b.Navigation("HotelBookings");
 
                     b.Navigation("HotelDates");
-
-                    b.Navigation("Packages");
                 });
 
             modelBuilder.Entity("ccse_cw1.Models.Tour", b =>
                 {
-                    b.Navigation("Packages");
-
                     b.Navigation("TourBookings");
                 });
 #pragma warning restore 612, 618

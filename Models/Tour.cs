@@ -15,5 +15,6 @@ namespace ccse_cw1.Models
         public int NumSpaces { get; set; }
 
         public ICollection<TourBooking> TourBookings { get; } = new List<TourBooking>();
+        public ICollection<Package> Packages { get; } = new List<Package>();
     }
 }
