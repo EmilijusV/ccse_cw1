@@ -355,29 +355,50 @@
         var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
 
         var grandTotalPrice = totalPrice * numNights; //hotel total 
-        var discountPercentage = 0;
         console.log(grandTotalPrice);
-        switch (selectedHotelID) {
-            case "1","4","7","10","13","16":
-                discountPercentage = 0.1; // 10% discount
-                break;
-            case "2","5","8","11","14","17":
-                discountPercentage = 0.2; // 20% discount
-                break;
-            case "3","6","9","12","15","18":
-                discountPercentage = 0.4; // 40% discount
-                break;
+
+        switch(selectedHotelID) {
+        case "1":
+        case "4":
+        case "7":
+        case "10":
+        case "13":
+        case "16":
+            discountPercentage = 0.1; // 10% discount
+            break;
+        case "2":
+        case "5":
+        case "8":
+        case "11":
+        case "14":
+        case "17":
+            discountPercentage = 0.2; // 20% discount
+            break;
+        case "3":
+        case "6":
+        case "9":
+        case "12":
+        case "15":
+        case "18":
+            discountPercentage = 0.4; // 40% discount
+            break;
+        default:
+            // Default case if none of the above cases match
+            discountPercentage = 0; // No discount
+            break;
         }
+
+        var discountedPercentage = discountPercentage;
 
         var grandGrandTotal = grandTotalPrice + tourNewTotalCost;
         console.log(grandGrandTotal);
-        var grandGrandTotalCost = grandGrandTotal * (1 - discountPercentage);
+        var grandGrandTotalCost = grandGrandTotal * (1 - discountedPercentage);
         console.log(grandGrandTotalCost);
-        var mGrandTotalCost = grandGrandTotalCost * 1.05;
+        var increasedGrandTotalCost = grandGrandTotalCost * 1.05;
 
 
         var mGrandTotalCost = document.getElementById("mGrandTotalCost");
-        mGrandTotalCost.value = grandGrandTotalCost;
+        mGrandTotalCost.value = increasedGrandTotalCost.toFixed(2);
     }
 
 </script>
