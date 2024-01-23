@@ -5,11 +5,71 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Managing Dashboard, Welcome!</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="CreateHotel">Create New Hotel Booking</a>
 </p>
+<p>
+    <a asp-page="CreateTour">Create New Tour Booking</a>
+</p>
+
+<div class="mt-3">
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Page("/ManagingDashboard/Report")'">Generate a report of Data</button>
+</div>
+
+<h1 style="align-content:center">Tour Bookings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TourBooking[0].CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TourBooking[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TourBooking[0].EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TourBooking[0].TotalCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TourBooking[0].TourID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TourBooking)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tour.TourID)
+                </td>
+                <td>
+                    <a asp-page="./EditTour" asp-route-id="@item.TourBookingID">Edit</a> |
+                    <a asp-page="./DeleteTour" asp-route-id="@item.TourBookingID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1 style="align-content:center">Hotel Bookings</h1>
 <table class="table">
     <thead>
         <tr>
@@ -32,29 +92,97 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.HotelBooking) {
+        @foreach (var item in Model.HotelBooking)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hotel.HotelID)
+                </td>
+                <td>
+                    <a asp-page="./EditHotel" asp-route-id="@item.HotelBookingID">Edit</a> |
+                    <a asp-page="./DeleteHotel" asp-route-id="@item.HotelBookingID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1 style="align-content:center">Package Bookings</h1>
+<table class="table">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hotel.HotelID)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.HotelBookingID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.HotelBookingID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.HotelBookingID">Delete</a>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TourID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].HotelID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].HotelStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].HotelEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TourStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TourEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].TotalCost)
+            </th>
+            <th></th>
         </tr>
-}
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Package)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TourID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TourStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TourEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    <a asp-page="./EditPackage" asp-route-id="@item.PackageID">Edit</a> |
+                    <a asp-page="./DeletePackage" asp-route-id="@item.PackageID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

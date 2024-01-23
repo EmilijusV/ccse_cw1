@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ccse_cw1.Data;
 using ccse_cw1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ccse_cw1.Pages.CustomerDashboard
 {
+    [Authorize(Roles = "client")]
     public class IndexModel : PageModel
     {
         private readonly ccse_cw1.Data.BookingSystem _context;

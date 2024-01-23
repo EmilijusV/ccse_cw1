@@ -21,13 +21,25 @@ namespace ccse_cw1.Pages.TempSolution
             _context = context;
         }
 
-        public IList<HotelBooking> HotelBooking { get;set; } = default!;
+        public IList<TourBooking> TourBooking { get; set; } = default!;
+        public IList<HotelBooking> HotelBooking { get; set; } = default!;
+        public IList<Package> Package { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
+            if (_context.TourBookings != null)
+            {
+                TourBooking = await _context.TourBookings
+                .Include(t => t.Tour).ToListAsync();
+            }
             if (_context.HotelBookings != null)
             {
                 HotelBooking = await _context.HotelBookings
+                .Include(h => h.Hotel).ToListAsync();
+            }
+            if (_context.Packages != null)
+            {
+                Package = await _context.Packages
                 .Include(h => h.Hotel).ToListAsync();
             }
         }

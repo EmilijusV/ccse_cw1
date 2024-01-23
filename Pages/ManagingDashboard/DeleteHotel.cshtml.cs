@@ -12,16 +12,17 @@ using Microsoft.AspNetCore.Authorization;
 namespace ccse_cw1.Pages.TempSolution
 {
     [Authorize(Roles = "admin, seller")]
-    public class DetailsModel : PageModel
+    public class DeleteHotelModel : PageModel
     {
         private readonly ccse_cw1.Data.BookingSystem _context;
 
-        public DetailsModel(ccse_cw1.Data.BookingSystem context)
+        public DeleteHotelModel(ccse_cw1.Data.BookingSystem context)
         {
             _context = context;
         }
 
-      public HotelBooking HotelBooking { get; set; } = default!; 
+        [BindProperty]
+      public HotelBooking HotelBooking { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,6 +32,7 @@ namespace ccse_cw1.Pages.TempSolution
             }
 
             var hotelbooking = await _context.HotelBookings.FirstOrDefaultAsync(m => m.HotelBookingID == id);
+
             if (hotelbooking == null)
             {
                 return NotFound();
@@ -40,6 +42,24 @@ namespace ccse_cw1.Pages.TempSolution
                 HotelBooking = hotelbooking;
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null || _context.HotelBookings == null)
+            {
+                return NotFound();
+            }
+            var hotelbooking = await _context.HotelBookings.FindAsync(id);
+
+            if (hotelbooking != null)
+            {
+                HotelBooking = hotelbooking;
+                _context.HotelBookings.Remove(HotelBooking);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }

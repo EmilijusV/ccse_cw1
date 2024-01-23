@@ -1,0 +1,361 @@
+﻿@page
+@model ccse_cw1.Pages.ManagingDashboard.EditPackageModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Package</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Package.PackageID" />
+            <div class="form-group">
+                <label asp-for="Package.TourID" class="control-label"></label>
+                <select asp-for="Package.TourID" id="tourId" class="form-control" asp-items="ViewBag.TourID" onchange="changeTotalCost()"></select>
+                <span asp-validation-for="Package.TourID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.HotelID" class="control-label"></label>
+                <select asp-for="Package.HotelID" id="hotelId"class="form-control" asp-items="ViewBag.HotelID"></select>
+                <span asp-validation-for="Package.HotelID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.CustomerID" class="control-label"></label>
+                <input asp-for="Package.CustomerID" class="form-control" />
+                <span asp-validation-for="Package.CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.HotelStartDate" class="control-label"></label>
+                <input asp-for="Package.HotelStartDate" id="HotelCheckIn"class="form-control" />
+                <span asp-validation-for="Package.HotelStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.HotelEndDate" class="control-label"></label>
+                <input asp-for="Package.HotelEndDate" id="HotelCheckOut" class="form-control" onchange="updateTotalPrice(); checkCheckInDate();"/>
+                <span asp-validation-for="Package.HotelEndDate" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Hotel Total Cost</label>
+                <input type="text" id="HotelTotalPrice" class="form-control" style="width: 85px;" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.TourStartDate" class="control-label"></label>
+                <input asp-for="Package.TourStartDate" id="tourCheckInValue"class="form-control" onchange="endDateCalculation()" />
+                <span asp-validation-for="Package.TourStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.TourEndDate" class="control-label"></label>
+                <input type="text" asp-for="Package.TourEndDate" id="tourEndDate" class="form-control"/>
+                <span asp-validation-for="Package.TourEndDate" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Tour Total Cost</label>
+                <input type="text" id="tourTotalCost" class="form-control" style="width: 85px;" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.TotalCost" class="control-label"></label>
+                <input type="text" asp-for="Package.TotalCost" id="grandTotalCost" class="form-control" />
+                <span asp-validation-for="Package.TotalCost" class="text-danger"></span>
+            </div>
+            <br/>
+            
+<button type="button" value="UpdateGrandTotal" onclick="updateGrandTotal()">Apply Discount</button>
+          
+            <br/>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<script>
+
+    function endDateCalculation() { // tour end date calculation
+
+        var tourId = document.getElementById("tourId");
+        var selectedTourID = tourId.value;
+        console.log(selectedTourID); // check the tour id value selected
+
+        switch (selectedTourID) {
+            case "1":
+                tourDuration = 6;
+                break;
+            case "2":
+                tourDuration = 16;
+                break;
+            case "3":
+                tourDuration = 12;
+                break;
+        }
+        console.log(tourDuration);
+        var duration = tourDuration * 24 * 60 * 60 * 1000;
+
+        var selectedDate = new Date(document.getElementById("tourCheckInValue").value);
+
+        var endDate = new Date(selectedDate.getTime() + duration);
+        console.log(endDate)
+
+        var formattedEndDate = endDate.toLocaleDateString('en-GB');
+
+        var tourEndDate = document.getElementById("tourEndDate");
+        tourEndDate.value = formattedEndDate;
+    }
+
+    function changeTotalCost() { // tour total cost 
+
+        var tourId = document.getElementById("tourId");
+        var selectedTourID = tourId.value;
+        console.log(selectedTourID); // check the tour id value selected
+
+        switch (selectedTourID) {
+            case "1":
+                newTotalCost = 1200;
+                break;
+            case "2":
+                newTotalCost = 2000;
+                break;
+            case "3":
+                newTotalCost = 2900;
+                break;
+        }
+        console.log(newTotalCost);
+
+        var tourTotalCost = document.getElementById("tourTotalCost");
+        tourTotalCost.value = newTotalCost;
+    }
+
+    function updateTotalPrice() {
+
+        var hotelId = document.getElementById("hotelId");
+        var selectedHotelID = hotelId.value;
+        console.log(selectedHotelID);
+
+        switch (selectedHotelID) {
+            case "1":
+                hotelPrice = 375;
+                break;
+            case "2":
+                hotelPrice = 775;
+                break;
+            case "3":
+                hotelPrice = 950;
+                break;
+            case "4":
+                hotelPrice = 300;
+                break;
+            case "5":
+                hotelPrice = 500;
+                break;
+            case "6":
+                hotelPrice = 900;
+                break;
+            case "7":
+                hotelPrice = 80;
+                break;
+            case "8":
+                hotelPrice = 120;
+                break;
+            case "9":
+                hotelPrice = 150;
+                break;
+            case "10":
+                hotelPrice = 180;
+                break;
+            case "11":
+                hotelPrice = 400;
+                break;
+            case "12":
+                hotelPrice = 520;
+                break;
+            case "13":
+                hotelPrice = 180;
+                break;
+            case "14":
+                hotelPrice = 400;
+                break;
+            case "15":
+                hotelPrice = 520;
+                break;
+            case "16":
+                hotelPrice = 90;
+                break;
+            case "17":
+                hotelPrice = 100;
+                break;
+            case "18":
+                hotelPrice = 155;
+                break;
+        }
+        var totalPrice = hotelPrice;
+        console.log(totalPrice);
+
+        var checkinDate = new Date(document.getElementById("HotelCheckIn").value);
+        var checkoutDate = new Date(document.getElementById("HotelCheckOut").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate >= checkoutDate) {
+            alert("Invalid date range. Check-out date must be later than Check-in date.");
+            return;
+        }
+
+        var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+
+        var grandTotalPrice = totalPrice * numNights;
+
+        // Update the total cost span
+        var HotelTotalPrice = document.getElementById("HotelTotalPrice");
+        HotelTotalPrice.value = grandTotalPrice.toFixed(2);
+    }
+
+    function checkCheckInDate() {
+        var hotelId = document.getElementById("hotelId");
+        var selectedHotelID = hotelId.value;
+
+        var checkinDate = new Date(document.getElementById("HotelCheckIn").value);
+        var checkoutDate = new Date(document.getElementById("HotelCheckOut").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate < currentDate) {
+            alert("The start date you have selected is in the past! Please change it.");
+            return;
+        }
+    }
+
+    function updateGrandTotal() {
+
+        var tourId = document.getElementById("tourId");
+        var selectedTourID = tourId.value;
+        console.log(selectedTourID); // check the tour id value selected
+        var newTotalCost;
+
+        switch (selectedTourID) {
+            case "1":
+                newTotalCost = 1200;
+                break;
+            case "2":
+                newTotalCost = 2000;
+                break;
+            case "3":
+                newTotalCost = 2900;
+                break;
+        }                                                   // tour total
+        console.log(newTotalCost);
+
+        var tourNewTotalCost = newTotalCost;
+        console.log(tourNewTotalCost);
+
+        var hotelId = document.getElementById("hotelId");
+        var selectedHotelID = hotelId.value;
+        console.log(selectedHotelID);
+
+        switch (selectedHotelID) {
+            case "1":
+                hotelPrice = 375;
+                break;
+            case "2":
+                hotelPrice = 775;
+                break;
+            case "3":
+                hotelPrice = 950;
+                break;
+            case "4":
+                hotelPrice = 300;
+                break;
+            case "5":
+                hotelPrice = 500;
+                break;
+            case "6":
+                hotelPrice = 900;
+                break;
+            case "7":
+                hotelPrice = 80;
+                break;
+            case "8":
+                hotelPrice = 120;
+                break;
+            case "9":
+                hotelPrice = 150;
+                break;
+            case "10":
+                hotelPrice = 180;
+                break;
+            case "11":
+                hotelPrice = 400;
+                break;
+            case "12":
+                hotelPrice = 520;
+                break;
+            case "13":
+                hotelPrice = 180;
+                break;
+            case "14":
+                hotelPrice = 400;
+                break;
+            case "15":
+                hotelPrice = 520;
+                break;
+            case "16":
+                hotelPrice = 90;
+                break;
+            case "17":
+                hotelPrice = 100;
+                break;
+            case "18":
+                hotelPrice = 155;
+                break;
+        }
+        var totalPrice = hotelPrice;
+        console.log(totalPrice);
+
+        var checkinDate = new Date(document.getElementById("HotelCheckIn").value);
+        var checkoutDate = new Date(document.getElementById("HotelCheckOut").value);
+
+        var currentDate = new Date();
+
+        if (checkinDate >= checkoutDate) {
+            alert("Invalid date range. Check-out date must be later than Check-in date.");
+            return;
+        }
+
+        var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+
+        var grandTotalPrice = totalPrice * numNights; //hotel total 
+
+        switch (selectedHotelID) {
+            case "1","4","7","10","13","16":
+                discountPercentage = 0.1; // 10% discount
+                break;
+            case "2","5","8","11","14","17":
+                discountPercentage = 0.2; // 20% discount
+                break;
+            case "3","6","9","12","15","18":
+                discountPercentage = 0.4; // 40% discount
+                break;
+        }
+
+        var grandGrandTotal = grandTotalPrice + tourNewTotalCost;
+
+        var grandGrandTotalCost = grandGrandTotal * (1 - discountPercentage);
+
+        var grandTotalCost = document.getElementById("grandTotalCost");
+        grandTotalCost.value = grandGrandTotalCost;
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

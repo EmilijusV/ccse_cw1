@@ -1,0 +1,162 @@
+﻿@page
+@model ccse_cw1.Pages.ManagingDashboard.ReportModel
+@{
+}
+
+<h1 style="align-content:center">Available Hotels</h1>
+<div style="display: flex">
+    <table style="width:50%">
+        <tr>
+            <th>Hotel ID</th>
+            <th>Hotel Name</th>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th># of Rooms Left</th>
+        </tr>
+        @foreach (var item in Model.Hotels)
+        {
+            <tr>
+                <td>@item.HotelID</td>
+                <td>@item.HotelName</td>
+                <td>@item.RoomType</td>
+                <td>£@item.Price</td>
+                <td style="text-align: center">@item.NumRooms</td>
+            </tr>
+        }
+    </table>
+
+    <table style="width:50%">
+        <tr style="text-align: center">
+            <th>Available From</th>
+            <th>Available To</th>
+        </tr>
+
+        @foreach (var day in Model.HotelDates)
+        {
+            <tr style="text-align: center">
+                <td>@day.AvailableFrom</td>
+                <td>@day.AvailableTo</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+<h1 style="align-content:center">Available Tours</h1>
+<div style="display: flex">
+    <table style="width:50%">
+        <tr>
+            <th>Tour ID</th>
+            <th>Tour Name</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th># of Spaces Left</th>
+        </tr>
+        @foreach (var item in Model.Tours)
+        {
+            <tr>
+                <td>@item.TourID</td>
+                <td>@item.TourName</td>
+                <td>@item.Duration</td>
+                <td>£@item.Price</td>
+                <td style="text-align: center">@item.NumSpaces</td>
+            </tr>
+        }
+    </table>
+
+    <table style="width:50%">
+        <tr style="text-align: center">
+            <th>Available From</th>
+            <th>Available To</th>
+        </tr>
+
+        @foreach (var day in Model.TourDates)
+        {
+            <tr style="text-align: center">
+                <td>@day.AvailableFrom</td>
+                <td>@day.AvailableTo</td>
+            </tr>
+        }
+    </table>
+</div>
+<br />
+<h1 style="align-content:center">Tour Bookings</h1>
+<div style="display: flex">
+    <table style="width:100%">
+        <tr>
+            <th>Tour ID</th>
+            <th>Customer ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Cost</th>
+        </tr>
+        @foreach (var item in Model.TourBookings)
+        {
+            <tr>
+                <td>@item.TourID</td>
+                <td>@item.CustomerID</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td style="text-align: center">£@item.TotalCost</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+<h1 style="align-content:center">Hotel Bookings</h1>
+<div style="display: flex">
+    <table style="width:100%">
+        <tr>
+            <th>Hotel ID</th>
+            <th>Customer ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Cost</th>
+        </tr>
+        @foreach (var item in Model.HotelBookings)
+        {
+            <tr>
+                <td>@item.HotelID</td>
+                <td>@item.CustomerID</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td style="text-align: center">£@item.TotalPrice</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+<h1 style="align-content:center">Package Bookings</h1>
+<div style="display: flex">
+    <table style="width:100%">
+        <tr>
+            <th>Tour ID</th>
+            <th>Hotel ID</th>
+            <th>Customer ID</th>
+            <th>Tour Start Date</th>
+            <th>Tour End Date</th>
+            <th>Hotel Start Date</th>
+            <th>Hotel End Date</th>
+            <th>Total Cost</th>
+        </tr>
+        @foreach (var item in Model.Packages)
+        {
+            <tr>
+                <td>@item.TourID</td>
+                <td>@item.HotelID</td>
+                <td>@item.CustomerID</td>
+                <td>@item.TourStartDate</td>
+                <td>@item.TourEndDate</td>
+                <td>@item.HotelStartDate</td>
+                <td>@item.HotelEndDate</td>
+                <td style="text-align: center">£@item.TotalCost</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>

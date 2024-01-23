@@ -9,53 +9,53 @@ using ccse_cw1.Data;
 using ccse_cw1.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ccse_cw1.Pages.TempSolution
+namespace ccse_cw1.Pages.ManagingDashboard
 {
     [Authorize(Roles = "admin, seller")]
-    public class DeleteModel : PageModel
+    public class DeletePackageModel : PageModel
     {
         private readonly ccse_cw1.Data.BookingSystem _context;
 
-        public DeleteModel(ccse_cw1.Data.BookingSystem context)
+        public DeletePackageModel(ccse_cw1.Data.BookingSystem context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public HotelBooking HotelBooking { get; set; } = default!;
+      public Package Package { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.HotelBookings == null)
+            if (id == null || _context.Packages == null)
             {
                 return NotFound();
             }
 
-            var hotelbooking = await _context.HotelBookings.FirstOrDefaultAsync(m => m.HotelBookingID == id);
+            var package = await _context.Packages.FirstOrDefaultAsync(m => m.PackageID == id);
 
-            if (hotelbooking == null)
+            if (package == null)
             {
                 return NotFound();
             }
             else 
             {
-                HotelBooking = hotelbooking;
+                Package = package;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.HotelBookings == null)
+            if (id == null || _context.Packages == null)
             {
                 return NotFound();
             }
-            var hotelbooking = await _context.HotelBookings.FindAsync(id);
+            var package = await _context.Packages.FindAsync(id);
 
-            if (hotelbooking != null)
+            if (package != null)
             {
-                HotelBooking = hotelbooking;
-                _context.HotelBookings.Remove(HotelBooking);
+                Package = package;
+                _context.Packages.Remove(Package);
                 await _context.SaveChangesAsync();
             }
 

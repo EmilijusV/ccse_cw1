@@ -1,0 +1,119 @@
+﻿@page
+@model ccse_cw1.Pages.ManagingDashboard.EditTourModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TourBooking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TourBooking.TourBookingID" />
+            <div class="form-group">
+                <label asp-for="TourBooking.TourID" class="control-label"></label>
+                <select asp-for="TourBooking.TourID" id="tourId" data-tourid="TourID" class="form-control" asp-items="ViewBag.TourID" onchange="totalCostCalculation()"></select>
+                <span asp-validation-for="TourBooking.TourID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TourBooking.Tour" class="control-label"></label>
+                <input asp-for="TourBooking.Tour" class="form-control" />
+                <span asp-validation-for="TourBooking.Tour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TourBooking.CustomerID" class="control-label"></label>
+                <input asp-for="TourBooking.CustomerID" class="form-control" />
+                <span asp-validation-for="TourBooking.CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TourBooking.StartDate" class="control-label"></label>
+                <input asp-for="TourBooking.StartDate" id="CheckInValue" class="form-control" onchange="endDateCalculation()"/>
+                <span asp-validation-for="TourBooking.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TourBooking.EndDate" class="control-label"></label>
+                <input type="text" id="tourEndDate" asp-for="TourBooking.EndDate" class="form-control" readonly />
+                <span asp-validation-for="TourBooking.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TourBooking.TotalCost" class="control-label"></label>
+                <input type="text" id="tourTotalCost" asp-for="TourBooking.TotalCost" class="form-control" />
+                <span asp-validation-for="TourBooking.TotalCost" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<script>
+
+    function endDateCalculation() {
+
+        var tourId = document.getElementById("tourId");
+        var selectedTourID = tourId.value;
+        console.log(selectedTourID); // check the tour id value selected
+
+        switch (selectedTourID) {
+            case "1":
+                tourDuration = 6;
+                break;
+            case "2":
+                tourDuration = 16;
+                break;
+            case "3":
+                tourDuration = 12;
+                break;
+        }
+        console.log(tourDuration);
+        var duration = tourDuration * 24 * 60 * 60 * 1000;
+
+        var selectedDate = new Date(document.getElementById("CheckInValue").value);
+
+        var endDate = new Date(selectedDate.getTime() + duration);
+        console.log(endDate)
+
+        var formattedEndDate = endDate.toLocaleDateString('en-GB');
+
+        var tourEndDate = document.getElementById("tourEndDate");
+        tourEndDate.value = formattedEndDate;
+    }
+
+    function totalCostCalculation() {
+
+        var tourId = document.getElementById("tourId");
+        var selectedTourID = tourId.value;
+        console.log(selectedTourID); // check the tour id value selected
+
+        switch (selectedTourID) {
+            case "1":
+                newTotalCost = 1200;
+                break;
+            case "2":
+                newTotalCost = 2000;
+                break;
+            case "3":
+                newTotalCost = 2900;
+                break;
+        }
+        console.log(newTotalCost);
+        
+        var tourTotalCost = document.getElementById("tourTotalCost");
+        tourTotalCost.value = newTotalCost;
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
