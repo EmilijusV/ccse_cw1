@@ -25,6 +25,12 @@ namespace ccse_cw1.Pages.CustomerDashboard
         public IList<HotelBooking> HotelBooking { get; set; } = default!;
         public IList<Package> Package { get; set; } = default!;
 
+        public IList<TourBooking> TourBookingsLessThan14DaysLeft { get; set; } = default!;
+        public IList<HotelBooking> HotelBookingsLessThan14DaysLeft { get; set; } = default!;
+        public IList<Package> PackagesLessThan14DaysLeft { get; set; } = default!;
+
+
+
         public async Task OnGetAsync()
         {
             if (_context.TourBookings != null)
@@ -41,6 +47,39 @@ namespace ccse_cw1.Pages.CustomerDashboard
             {
                 Package = await _context.Packages
                 .Include(h => h.Hotel).ToListAsync();
+            }
+
+            if (_context.TourBookings != null)
+            {
+                TourBooking = await _context.TourBookings
+                    .Include(t => t.Tour).ToListAsync();
+
+                // Filter TourBookings less than 14 days left
+                TourBookingsLessThan14DaysLeft = TourBooking
+                    .Where(booking => (booking.StartDate - DateTime.Now).TotalDays < 14)
+                    .ToList();
+            }
+
+            if (_context.HotelBookings != null)
+            {
+                HotelBooking = await _context.HotelBookings
+                    .Include(h => h.Hotel).ToListAsync();
+
+                // Filter HotelBookings less than 14 days left
+                HotelBookingsLessThan14DaysLeft = HotelBooking
+                    .Where(booking => (booking.StartDate - DateTime.Now).TotalDays < 14)
+                    .ToList();
+            }
+
+            if (_context.Packages != null)
+            {
+                Package = await _context.Packages
+                    .Include(h => h.Hotel).ToListAsync();
+
+                // Filter Packages less than 14 days left
+                PackagesLessThan14DaysLeft = Package
+                    .Where(booking => (booking.HotelStartDate - DateTime.Now).TotalDays < 14)
+                    .ToList();
             }
         }
     }

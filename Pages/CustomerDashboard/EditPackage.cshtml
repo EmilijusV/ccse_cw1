@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Package.TotalCost" class="control-label"></label>
-                <input type="text" asp-for="Package.TotalCost" id="grandTotalCost" class="form-control" readonly />
+                <input type="text" asp-for="Package.TotalCost" id="mGrandTotalCost" class="form-control" readonly />
                 <span asp-validation-for="Package.TotalCost" class="text-danger"></span>
             </div>
             <br/>
@@ -80,6 +80,28 @@
 </div>
 
 <script>
+
+    window.onload = function () {
+        checkIfCanEdit();
+    };
+
+    function checkIfCanEdit() {
+        var hotelCheckInDate = new Date(document.getElementById("HotelCheckIn").value);
+        var tourCheckInDate = new Date(document.getElementById("tourCheckInValue").value);
+        var currentDate = new Date();
+
+        var HdaysLeft = Math.ceil((hotelCheckInDate - currentDate) / (1000 * 60 * 60 * 24));
+        var TdaysLeft = Math.ceil((tourCheckInDate - currentDate) / (1000 * 60 * 60 * 24));
+        console.log(HdaysLeft);
+        console.log(TdaysLeft);
+
+        if (HdaysLeft < 14 && TdaysLeft < 14) {
+            alert("You are no longer able to modify your booking.");
+            window.location.href = 'Index';
+        } else {
+            alert("Your Modification will add 5% to your total costs.");
+        }
+    }
 
     function endDateCalculation() { // tour end date calculation
 
@@ -333,7 +355,8 @@
         var numNights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
 
         var grandTotalPrice = totalPrice * numNights; //hotel total 
-
+        var discountPercentage = 0;
+        console.log(grandTotalPrice);
         switch (selectedHotelID) {
             case "1","4","7","10","13","16":
                 discountPercentage = 0.1; // 10% discount
@@ -347,11 +370,14 @@
         }
 
         var grandGrandTotal = grandTotalPrice + tourNewTotalCost;
-
+        console.log(grandGrandTotal);
         var grandGrandTotalCost = grandGrandTotal * (1 - discountPercentage);
+        console.log(grandGrandTotalCost);
+        var mGrandTotalCost = grandGrandTotalCost * 1.05;
 
-        var grandTotalCost = document.getElementById("grandTotalCost");
-        grandTotalCost.value = grandGrandTotalCost;
+
+        var mGrandTotalCost = document.getElementById("mGrandTotalCost");
+        mGrandTotalCost.value = grandGrandTotalCost;
     }
 
 </script>

@@ -1,0 +1,49 @@
+﻿@page
+@model ccse_cw1.Pages.CustomerDashboard.PaymentModel
+@{
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Payment</title>
+</head>
+<body>
+
+    <div>
+        <h1>Card Payment</h1>
+        <div>
+            <p>We will automatically deduct 20% of the cost as the deposit.</p>
+        </div>
+        <form id="paymentForm">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" required>
+            <p class="field-description">Enter the 16-digit card number.</p>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YYYY" required>
+            <p class="field-description">Enter the expiration date in MM/YYYY format.</p>
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+            <p class="field-description">Enter the 3 or 4-digit CVV code on the back of your card.</p>
+
+            <label for="cardHolderName">Cardholder Name:</label>
+            <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Enter cardholder name" required>
+            <p class="field-description">Enter the name as it appears on the card.</p>
+
+            <button type="button" onclick="processPayment()">Make Payment</button>
+        </form>
+    </div>
+    <div>
+        <p>Keep in mind that the remaining amount needs to be paid 28 days before the start date of your booking. Failure to do so will forfeit the deposit.</p>
+    </div>
+
+    <script>
+        function processPayment() {
+            alert('Payment processed successfully!');
+            window.location.href = 'Index';
+        }
+    </script>
+
+</body>

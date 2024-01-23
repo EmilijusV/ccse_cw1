@@ -48,7 +48,8 @@
             </td>
             <td>
                 <a asp-page="./EditTour" asp-route-id="@item.TourBookingID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.TourBookingID">Details</a>
+                <a asp-page="./Details" asp-route-id="@item.TourBookingID">Details</a> |
+                <a asp-page="./Payment" asp-route-id="@item.TourBookingID">Pay</a>
             </td>
         </tr>
 }
@@ -98,7 +99,8 @@
                 </td>
                 <td>
                     <a asp-page="./EditHotel" asp-route-id="@item.HotelBookingID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.HotelBookingID">Details</a>
+                    <a asp-page="./Details" asp-route-id="@item.HotelBookingID">Details</a> |
+                    <a asp-page="./Payment" asp-route-id="@item.HotelBookingID">Pay</a>
                 </td>
             </tr>
         }
@@ -166,9 +168,11 @@
                 </td>
                 <td>
                     <a asp-page="./EditPackage" asp-route-id="@item.PackageID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.PackageID">Details</a>
+                    <a asp-page="./Details" asp-route-id="@item.PackageID">Details</a> |
+                    <a asp-page="./Payment" asp-route-id="@item.PackageID">Pay</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<p style="font-size: 25px; font-weight: bold; margin-top: 5px;"> For cancellations please contact Managers of PacificTours. Keep in mind cancellations may be made 5 days prior to the booking.</p>

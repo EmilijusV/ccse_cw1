@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="TourBooking.Tour" class="control-label"></label>
-                <input asp-for="TourBooking.Tour" class="form-control" />
+                <input type="hidden" asp-for="TourBooking.Tour" class="form-control" />
                 <span asp-validation-for="TourBooking.Tour" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -57,6 +57,25 @@
 </div>
 
 <script>
+
+    window.onload = function () {
+        checkIfCanEdit();
+    };
+
+    function checkIfCanEdit() {
+        var checkInDate = new Date(document.getElementById("CheckInValue").value);
+        var currentDate = new Date();
+
+        var daysLeft = Math.ceil((checkInDate - currentDate) / (1000 * 60 * 60 * 24));
+        console.log(daysLeft);
+
+        if (daysLeft < 14) {
+            alert("You are no longer able to modify your booking.");
+            window.location.href = 'Index';
+        } else {
+            alert("Your Modification will add 5% to your total costs.");
+        }
+    }
 
     function endDateCalculation() {
 
@@ -107,6 +126,8 @@
                 break;
         }
         console.log(newTotalCost);
+
+        var newTotalCost = newTotalCost * 1.05;
         
         var tourTotalCost = document.getElementById("tourTotalCost");
         tourTotalCost.value = newTotalCost;
