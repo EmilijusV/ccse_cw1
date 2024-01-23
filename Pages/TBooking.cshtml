@@ -1,45 +1,78 @@
 ﻿@page
+@using ccse_cw1.Models;
 @model ccse_cw1.Pages.TBookingModel
 @{
 }
 
-<div style="display: flex">
-    <table style="width:50%">
-        <tr>
-            <th>Tour ID</th>
-            <th>Tour Name</th>
-            <th>Duration</th>
-            <th>Price</th>
-            <th># of Spaces Left</th>
-        </tr>
-        @foreach (var item in Model.BookingSystems)
-        {
+<form method="get">
+    <form method="get">
+        <div>
+            <label asp-for="SearchTerm">Search Hotels</label>
+            <input asp-for="SearchTerm" />
+        </div>
+        <br/>
+        <div>
+            <label asp-for="SearchDate">Select Date</label>
+            <input asp-for="SearchDate" type="date" />
+        </div>
+        <br />
+        <div>
+            <button type="submit">Search</button>
+        </div>
+        <br />
+    </form>
+
+    @if (ViewData["SearchResults"] != null)
+    {
+        <div>
+            <h3>Search Results</h3>
+            <ul>
+                @foreach (var tour in (List<Tour>)ViewData["SearchResults"])
+                {
+                    <li>@tour.TourName</li>
+                    <!-- Display other hotel properties as needed -->
+                }
+            </ul>
+        </div>
+    }
+    <div style="display: flex">
+        <table style="width:50%">
             <tr>
-                <td>@item.TourID</td>
-                <td>@item.TourName</td>
-                <td>@item.Duration</td>
-                <td>£@item.Price</td>
-                <td style="text-align: center">@item.NumSpaces</td>
+                <th>Tour ID</th>
+                <th>Tour Name</th>
+                <th>Duration</th>
+                <th>Price</th>
+                <th># of Spaces Left</th>
             </tr>
-        }
-    </table>
+            @foreach (var item in Model.BookingSystems)
+            {
+                <tr>
+                    <td>@item.TourID</td>
+                    <td>@item.TourName</td>
+                    <td>@item.Duration</td>
+                    <td>£@item.Price</td>
+                    <td style="text-align: center">@item.NumSpaces</td>
+                </tr>
+            }
+        </table>
 
-    <table style="width:50%">
-        <tr style="text-align: center">
-            <th>Available From</th>
-            <th>Available To</th>
-        </tr>
-
-        @foreach (var day in Model.TourDates)
-        {
+        <table style="width:50%">
             <tr style="text-align: center">
-                <td>@day.AvailableFrom</td>
-                <td>@day.AvailableTo</td>
+                <th>Available From</th>
+                <th>Available To</th>
             </tr>
-        }
-    </table>
-</div>
-<br />
+
+            @foreach (var day in Model.TourDates)
+            {
+                <tr style="text-align: center">
+                    <td>@day.AvailableFrom</td>
+                    <td>@day.AvailableTo</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br />
+</form>
 
 <form method="post">
 

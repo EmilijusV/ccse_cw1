@@ -13,6 +13,12 @@ namespace ccse_cw1.Pages
 
     public class TBookingModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public string SearchTerm { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? SearchDate { get; set; }
+
         private readonly BookingSystem _context;
 
         private readonly UserManager<ApplicationUser> _userManager; // user id
@@ -34,6 +40,39 @@ namespace ccse_cw1.Pages
         {
             BookingSystems = await _context.Tours.ToListAsync();
             TourDates = await _context.TourDates.ToListAsync();
+
+            if (!string.IsNullOrEmpty(SearchTerm) && SearchDate.HasValue)
+            {
+                // Perform search using the database context
+                var searchResults = _context.Tours
+                    .Where(h => h.TourName.Contains(SearchTerm) &&
+                                _context.TourDates.Any(a => a.TourID == h.TourID &&
+                                                                  a.AvailableFrom.Date <= SearchDate.Value.Date &&
+                                                                  a.AvailableTo.Date >= SearchDate.Value.Date))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
+            }
+            else if (!string.IsNullOrEmpty(SearchTerm))
+            {
+                // Perform search only based on the search term
+                var searchResults = _context.Tours
+                    .Where(h => h.TourName.Contains(SearchTerm))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
+            }
+            else if (SearchDate.HasValue)
+            {
+                // Perform search only based on the date
+                var searchResults = _context.Tours
+                    .Where(h => _context.TourDates.Any(a => a.TourID == h.TourID &&
+                                                                  a.AvailableFrom.Date <= SearchDate.Value.Date &&
+                                                                  a.AvailableTo.Date >= SearchDate.Value.Date))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
+            }
         }
 
         public async Task<IActionResult> OnPost(TourBooking tourBooking)

@@ -15,6 +15,12 @@ namespace ccse_cw1.Pages
     [BindProperties]
     public class BookingModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public string SearchTerm { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? SearchDate { get; set; }
+
         private readonly BookingSystem _context;
 
         private readonly UserManager<ApplicationUser> _userManager; // user id
@@ -36,24 +42,59 @@ namespace ccse_cw1.Pages
         {
             BookingSystems = await _context.Hotels.ToListAsync();
             HotelDates = await _context.HotelDates.ToListAsync();
-        }
-        
-        public async Task<IActionResult> OnPost(HotelBooking hotelBooking)
-        {
-            var user= await _userManager.GetUserAsync(User);
 
-            if (user != null) 
+            if (!string.IsNullOrEmpty(SearchTerm) && SearchDate.HasValue)
             {
-                hotelBooking.CustomerID = user.Id;
+                // Perform search using the database context
+                var searchResults = _context.Hotels
+                    .Where(h => h.HotelName.Contains(SearchTerm) &&
+                                _context.HotelDates.Any(a => a.HotelID == h.HotelID &&
+                                                                  a.AvailableFrom.Date <= SearchDate.Value.Date &&
+                                                                  a.AvailableTo.Date >= SearchDate.Value.Date))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
             }
-            else
+            else if (!string.IsNullOrEmpty(SearchTerm))
             {
-                return RedirectToPage("Error");
+                // Perform search only based on the search term
+                var searchResults = _context.Hotels
+                    .Where(h => h.HotelName.Contains(SearchTerm))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
             }
-            await _context.HotelBookings.AddAsync(hotelBooking);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("Index");
+            else if (SearchDate.HasValue)
+            {
+                // Perform search only based on the date
+                var searchResults = _context.Hotels
+                    .Where(h => _context.HotelDates.Any(a => a.HotelID == h.HotelID &&
+                                                                  a.AvailableFrom.Date <= SearchDate.Value.Date &&
+                                                                  a.AvailableTo.Date >= SearchDate.Value.Date))
+                    .ToList();
+
+                ViewData["SearchResults"] = searchResults;
+            }
         }
 
+            public async Task<IActionResult> OnPost(HotelBooking hotelBooking)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user != null)
+                {
+                    hotelBooking.CustomerID = user.Id;
+                }
+                else
+                {
+                    return RedirectToPage("Error");
+                }
+                await _context.HotelBookings.AddAsync(hotelBooking);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("Index");
+            }
     }
 }
+
+
+ 

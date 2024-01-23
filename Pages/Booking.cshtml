@@ -1,46 +1,78 @@
 ﻿@page
+@using ccse_cw1.Models;
 @model ccse_cw1.Pages.BookingModel
 @{
 }
+<form method="get">
+    <form method="get">
+        <div>
+            <label asp-for="SearchTerm">Search Hotels</label>
+            <input asp-for="SearchTerm" />
+        </div>
+        <br/>
+        <div>
+            <label asp-for="SearchDate">Select Date</label>
+            <input asp-for="SearchDate" type="date" />
+        </div>
+        <br/>
+        <div>
+            <button type="submit">Search</button>
+        </div>
+        <br/>
+    </form>
 
-
-<div style="display: flex">
-<table style="width:50%">
-    <tr>
-        <th>Hotel ID</th>
-        <th>Hotel Name</th>
-        <th>Room Type</th>
-        <th>Price</th>
-        <th># of Rooms Left</th>
-    </tr>
-    @foreach (var item in Model.BookingSystems)
+    @if (ViewData["SearchResults"] != null)
     {
+        <div>
+            <h3>Search Results</h3>
+            <ul>
+                @foreach (var hotel in (List<Hotel>)ViewData["SearchResults"])
+                {
+                    <li>@hotel.HotelName</li>
+                    <!-- Display other hotel properties as needed -->
+                }
+            </ul>
+        </div>
+    }
+
+    <div style="display: flex">
+    <table style="width:50%">
         <tr>
-            <td>@item.HotelID</td>
-            <td>@item.HotelName</td>
-            <td>@item.RoomType</td>
-            <td>£@item.Price</td>
-            <td style="text-align: center">@item.NumRooms</td>
+            <th>Hotel ID</th>
+            <th>Hotel Name</th>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th># of Rooms Left</th>
+        </tr>
+        @foreach (var item in Model.BookingSystems)
+        {
+            <tr>
+                <td>@item.HotelID</td>
+                <td>@item.HotelName</td>
+                <td>@item.RoomType</td>
+                <td>£@item.Price</td>
+                <td style="text-align: center">@item.NumRooms</td>
+            </tr>
+        }
+    </table>
+
+    <table style="width:50%">
+        <tr style="text-align: center">
+            <th>Available From</th>
+            <th>Available To</th>
+        </tr>
+
+    @foreach (var day in Model.HotelDates)
+    {
+        <tr style="text-align: center">
+            <td>@day.AvailableFrom</td>
+            <td>@day.AvailableTo</td>
         </tr>
     }
-</table>
-
-<table style="width:50%">
-    <tr style="text-align: center">
-        <th>Available From</th>
-        <th>Available To</th>
-    </tr>
-
-@foreach (var day in Model.HotelDates)
-{
-    <tr style="text-align: center">
-        <td>@day.AvailableFrom</td>
-        <td>@day.AvailableTo</td>
-    </tr>
-}
-</table>
-</div>
-<br />
+    </table>
+    </div>
+    <br />
+</form>
 
 <form method="post">
 
