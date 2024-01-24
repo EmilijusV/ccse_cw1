@@ -3,7 +3,6 @@
 @model ccse_cw1.Pages.BookingModel
 @{
 }
-<form method="get">
     <form method="get">
         <div>
             <label asp-for="SearchTerm">Search Hotels</label>
@@ -72,7 +71,6 @@
     </table>
     </div>
     <br />
-</form>
 
 <form method="post">
 
@@ -174,8 +172,7 @@
         var totalCost = price * numNights;
 
         // Update the total cost span
-        ar myInput = document.getElementById("myInput");
+        var myInput = document.getElementById("myInput");
         myInput.value = totalCost.toFixed(2);
     }
 </script>
-

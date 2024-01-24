@@ -77,22 +77,22 @@ namespace ccse_cw1.Pages
             }
         }
 
-            public async Task<IActionResult> OnPost(HotelBooking hotelBooking)
-            {
-                var user = await _userManager.GetUserAsync(User);
+        public async Task<IActionResult> OnPost(HotelBooking hotelBooking)
+        {
+            var user = await _userManager.GetUserAsync(User);
 
-                if (user != null)
-                {
-                    hotelBooking.CustomerID = user.Id;
-                }
-                else
-                {
-                    return RedirectToPage("Error");
-                }
-                await _context.HotelBookings.AddAsync(hotelBooking);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("Index");
+            if (user != null)
+            {
+                hotelBooking.CustomerID = user.Id;
             }
+            else
+            {
+                return RedirectToPage("Error");
+            }
+            await _context.HotelBookings.AddAsync(hotelBooking);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("Index");
+        }
     }
 }
 
