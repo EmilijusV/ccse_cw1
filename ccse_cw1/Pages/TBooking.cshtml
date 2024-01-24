@@ -29,7 +29,7 @@
             <ul>
                 @foreach (var tour in (List<Tour>)ViewData["SearchResults"])
                 {
-                    <li>@tour.TourName</li>
+                    <li>@tour.TourName, £@tour.Price</li>
                     <!-- Display other hotel properties as needed -->
                 }
             </ul>

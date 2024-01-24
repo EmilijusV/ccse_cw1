@@ -27,7 +27,7 @@
             <ul>
                 @foreach (var hotel in (List<Hotel>)ViewData["SearchResults"])
                 {
-                    <li>@hotel.HotelName</li>
+                    <li>@hotel.HotelName, £@hotel.Price</li>
                     <!-- Display other hotel properties as needed -->
                 }
             </ul>
